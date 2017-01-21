@@ -40,7 +40,7 @@ function askIfSure {
     return 1;
   else
     case $input in
-      y | Y | j | J ) return 0;;
+      y | Y | j | J ) echo "" && return 0;;
       *) echo "" && return 1;
      esac
   fi
