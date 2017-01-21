@@ -1,0 +1,47 @@
+# git-push-checker for zsh & git
+
+# override git command 
+function git {
+  
+  # only for these commands we make an additional check
+  if [ "$*" = "commit" ]; then
+    cmd="commit"
+  elif [ "$*" = "push" ]; then
+    cmd="push"
+
+  # otherwise just run the command
+  else
+    /usr/bin/git $*
+    return 0
+  fi
+
+  gitpushcheckercolscheme="\033[1;37;48;5;24m"
+  gitpushcheckercolclear="\033[0m"
+  branch=$(branch)
+
+  # only warn if we are on master or develop(ment)
+  if ([ "$branch" = "master" ] || [ "$branch" = "develop"* ]); then
+    echo -en "On $gitpushcheckercolscheme  $branch $gitpushcheckercolclear sure to $cmd?"
+    askIfSure && /usr/bin/git "$cmd"
+  else
+    /usr/bin/git "$cmd"
+  fi
+}
+
+function branch {
+  git branch | sed --quiet 's/* \(.*\)/\1/p'
+}
+
+function askIfSure {
+  echo -n " [y|j] "
+  read -k input
+  if [ "$input" = '' ]; then
+    echo ""
+    return 1;
+  else
+    case $input in
+      y | Y | j | J ) return 0;;
+      *) echo "" && return 1;
+     esac
+  fi
+}
