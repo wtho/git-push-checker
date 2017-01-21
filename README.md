@@ -2,6 +2,8 @@
 
 A program that keeps me from commiting and pushing on master.
 
+![screenshot](/screenshot.png?raw=true "Screenshot")
+
 Sometimes I try small things on master/develop before I create branches to implement features. Especially in bigger teams and if we use systems like github it is an issue to push on master. I commit and push often so it happens I do it without realising I am working on master.
 
 This program aks every time I try to push or commit if I really want to do it.
